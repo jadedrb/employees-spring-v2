@@ -20,7 +20,7 @@ class App extends Component {
   componentDidMount() { 
     // This app runs with the Employee2020 Java/Spring Boot server
   
-    console.log('v1.09')
+    console.log('v1.10')
     this.getEmployees() 
   }
 
