@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/employees-spring-test/static/css/main.ed31099c.chunk.css",
+    "main.js": "/employees-spring-test/static/js/main.120ecfa2.chunk.js",
+    "main.js.map": "/employees-spring-test/static/js/main.120ecfa2.chunk.js.map",
+    "runtime-main.js": "/employees-spring-test/static/js/runtime-main.a7c9be21.js",
+    "runtime-main.js.map": "/employees-spring-test/static/js/runtime-main.a7c9be21.js.map",
+    "static/js/2.0af919a9.chunk.js": "/employees-spring-test/static/js/2.0af919a9.chunk.js",
+    "static/js/2.0af919a9.chunk.js.map": "/employees-spring-test/static/js/2.0af919a9.chunk.js.map",
+    "index.html": "/employees-spring-test/index.html",
+    "precache-manifest.dffc2621d6a8e5ab10d10c69e7826880.js": "/employees-spring-test/precache-manifest.dffc2621d6a8e5ab10d10c69e7826880.js",
+    "service-worker.js": "/employees-spring-test/service-worker.js",
+    "static/css/main.ed31099c.chunk.css.map": "/employees-spring-test/static/css/main.ed31099c.chunk.css.map",
+    "static/js/2.0af919a9.chunk.js.LICENSE.txt": "/employees-spring-test/static/js/2.0af919a9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a7c9be21.js",
+    "static/js/2.0af919a9.chunk.js",
+    "static/css/main.ed31099c.chunk.css",
+    "static/js/main.120ecfa2.chunk.js"
+  ]
+}

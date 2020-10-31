@@ -1,0 +1,92 @@
+body {
+  background: rgb(164, 160, 255);
+}
+
+ul {
+  position: relative;
+  border: 1px solid black;
+  list-style: none;
+  padding: 20px;
+}
+ul:hover {
+  background: rgb(63, 62, 62);
+  color: white;
+}
+ul span {
+  color: rgb(182, 182, 182);
+}
+.link {
+  position: absolute;
+  right: 50px;
+  border-bottom: 3px solid black;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+.l-button {
+  position: absolute;
+  right: 150px;
+  bottom: 40px;
+  border-bottom: 3px solid white;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+.r-button {
+  position: absolute;
+  right: 50px;
+  bottom: 40px;
+  border-bottom: 3px solid white;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+.x-button:hover {
+  border-bottom: 3px solid black;
+  cursor: pointer;
+}
+.x-button:active {
+  color: black;
+}
+li {
+  display: flex;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+}
+input {
+  margin: 20px;
+}
+button {
+  margin-top: 50px;
+  width: 100px;
+  padding: 10px;
+  font-weight: bold;
+  background: white;
+}
+.loading {
+  position: absolute;
+  top: 25%;
+  right: 50%;
+  font-size: 100pt;
+  color: rgb(208, 208, 208);
+  justify-self: center;
+}
+.dissappear {
+  display: none;
+}
+
+@media screen and (max-width:599px) { 
+  .l-button {
+    top: 25px;
+    right: 30px;
+    height: 17px;
+  }
+  .r-button {
+    top: 70px;
+    right: 30px;
+    height: 17px;
+  }
+}
