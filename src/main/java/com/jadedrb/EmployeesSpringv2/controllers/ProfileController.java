@@ -73,6 +73,7 @@ public class ProfileController {
 		Profile profile = profileRepository.findById(profileId)
 				.orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
 		
+		profile.setEmployee(profileDetails.getEmployee());
 		profile.setPicture(profileDetails.getPicture());
 		profile.setDescription(profileDetails.getDescription());
 		

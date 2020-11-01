@@ -104,6 +104,13 @@ img:hover {
 }
 .large {
   position: relative;
+  transition: 0.9s;
+}
+.large:hover {
+  opacity: 1;
+  border: 3px solid black;
+  height: 250px;
+  max-width: 400px;
 }
 .d-page {
   display: flex;

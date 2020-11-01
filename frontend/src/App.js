@@ -6,7 +6,7 @@ import CreateUpdateEmp from './CreateUpdateEmp';
 import Employees from './Employees';
 import Login from './Login';
 
-import { readData, createData, deleteData, updateData } from './ApiCalls';
+import { readData, createData, deleteData, updateData, readDataOfId } from './ApiCalls';
 import axios from 'axios';
 import Description from './Description';
 
@@ -88,6 +88,14 @@ class App extends Component {
   updateEmployee = async (employee, id) => {
     this.loadingFunc()
     try {
+
+      // determine if corresponding profile model needs to be changed too
+      let oldEmployee = await readDataOfId('/api/employees/', id)
+      if (oldEmployee.firstName !== employee.firstName) {
+        let profile = this.state.profiles.filter(p => p.employee === oldEmployee.firstName)[0]
+        await updateData('/api/profiles/', profile.id, { ...profile, employee: employee.firstName})
+      }
+      
       await updateData(`/api/employees/`, id, employee)
       this.getEmployees()
     } 
