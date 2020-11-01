@@ -1,12 +1,14 @@
 body {
-  background: rgb(224, 224, 235);
+  background: rgb(238, 247, 255);
 }
 
 ul {
   position: relative;
   border: 1px solid black;
+  transition: 0.2s;
   list-style: none;
   padding: 20px;
+  padding-left: 110px;
 }
 ul:hover {
   background: rgb(63, 62, 62);
@@ -14,6 +16,7 @@ ul:hover {
 }
 ul span {
   color: rgb(182, 182, 182);
+  margin-right: 10px;
 }
 .link {
   position: absolute;
@@ -22,6 +25,12 @@ ul span {
   text-decoration: none;
   color: black;
   font-weight: bold;
+}
+.logout {
+  position: absolute;
+  left: 50px;
+  border: none;
+  opacity: .4;
 }
 .l-button {
   position: absolute;
@@ -44,9 +53,13 @@ ul span {
 .x-button:hover {
   border-bottom: 3px solid black;
   cursor: pointer;
+  transition: 0.3s;
 }
 .x-button:active {
   color: black;
+}
+.d-company {
+  bottom: 20px;
 }
 li {
   display: flex;
@@ -76,6 +89,40 @@ button {
 }
 .dissappear {
   display: none;
+}
+img {
+  position: absolute;
+  left: 0;
+  margin-left: 20px;
+  transition: 0.5s;
+  max-width: 150px;
+}
+img:hover {
+  opacity: .5;
+  border: 2px solid white;
+  cursor: pointer;
+}
+.large {
+  position: relative;
+}
+.d-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+ol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+}
+
+ol li:nth-child(odd) {
+  color: grey;
+  opacity: .5;
+  text-align: center;
+  margin: 15px;
 }
 
 @media screen and (max-width:599px) { 

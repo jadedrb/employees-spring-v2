@@ -33,7 +33,7 @@ public class EmployeeController {
 	
 	
 	
-	// GET : RETRIEVE ALL STUDENTS
+	// GET : RETRIEVE ALL EMPLOYEES
 	@GetMapping("/employees")
 	public List<Employee> getAllEmployees(Model model) {
 		System.out.println("GET employees (all)");
@@ -42,7 +42,7 @@ public class EmployeeController {
 	
 	
 	
-	// POST : CREATE NEW STUDENT
+	// POST : CREATE NEW EMPLOYEE
 	@PostMapping("/employees")
 	public Employee createOrSaveStudent(@Valid @RequestBody Employee newEmployee) {
 		System.out.println("POST employee");
@@ -51,7 +51,7 @@ public class EmployeeController {
 	
 	
 	
-	// GET : RETRIEVE STUDENT BY ID
+	// GET : RETRIEVE EMPLOYEE BY ID
 	@GetMapping("/employees/{id}")
 	public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "id") Long employeeId) 
 		throws ResourceNotFoundException {

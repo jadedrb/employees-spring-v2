@@ -28,22 +28,34 @@ public class Employee {
 	@Column (name = "email")
 	private String  email;
 	
+	@Column (name = "companyName")
+	private String companyName;
+	
+	public Employee() {}
+	
+	public Employee(Long id,String firstName, String lastName, String email, String companyName) {
+		
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.companyName = companyName;
+	}
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+	
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	
 	public String getJobTitle() {
 		return jobTitle;
 	}
 	
 	public void setJobTitle(String jobTitle) {
 		this.jobTitle = jobTitle;
-	}
-	
-	public Employee() {}
-	
-	public Employee(Long id,String firstName, String lastName, String email) {
-		
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
 	}
 	
 	public String getFirstName() {

@@ -1,26 +1,36 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
+
 import CreateUpdateEmp from './CreateUpdateEmp';
 import Employees from './Employees';
+import Login from './Login';
+
+import { readData, createData, deleteData, updateData } from './ApiCalls';
 import axios from 'axios';
+import Description from './Description';
+
 
 class App extends Component {
 
   constructor() {
     super()
     this.state = {
+      profiles: [],
+      companies: [],
       employees: [],
       loading: false,
       interval: false,
-      dots: ''
+      dots: '',
+      company: ''
     }
   }
 
   componentDidMount() { 
-    // This app runs with the Employee2020 Java/Spring Boot server
-  
-    console.log('v1.10')
+    let company = sessionStorage.getItem('company')
+    if (company) this.setState({ company }) 
+    console.log(company)
+    console.log('v1.11')
     this.getEmployees() 
   }
 
@@ -48,66 +58,95 @@ class App extends Component {
   getEmployees = async () => {
     this.loadingFunc()
     try {
-      let response = await axios.get('/api/employees')
-      this.setState({ employees: response.data })
-      console.log('new version: ')
-      console.log(response.data)
-    }
-    catch (err) {
-      console.log('error occured')
-    }
-    finally {
-      this.loadingFunc()
+      let employees = await readData('/api/employees')
+      let profiles = await readData('/api/profiles')
+      let admin = sessionStorage.getItem('company') === 'admin'
+      let companies = []
+      if (admin) {
+        companies = await readData('/api/companys')
+      }
+      else employees = employees.filter(c => c.companyName === this.state.company)
+      this.setState({ employees, companies, profiles })
+    } 
+    catch (err) { console.log(err) }
+    finally { 
+      this.loadingFunc() 
+      this.removeAnyFloatingProfiles()
     }
   }
 
   deleteEmployee = async (id) => {
-    console.log('delete')
     this.loadingFunc()
     try {
-      let response = await axios.delete(`/api/employees/${id}`)
+      await deleteData(`/api/employees/`, id)
       this.getEmployees()
-      console.log(response)
-    }
-    catch (err) {
-      console.log('error occured')
-      console.log(err)
-    }
-    finally {
-      this.loadingFunc()
-    }
+    } 
+    catch (err) { console.log(err) }
+    finally { this.loadingFunc() }
   }
 
   updateEmployee = async (employee, id) => {
-    console.log('update')
     this.loadingFunc()
     try {
-      let response = await axios.put(`/api/employees/${id}`, employee)
-      console.log(response)
+      await updateData(`/api/employees/`, id, employee)
       this.getEmployees()
     } 
-    catch (err) {
-      console.log('failed update')
-    }
-    finally {
-      this.loadingFunc()
-    }
+    catch (err) { console.log(err) }
+    finally { this.loadingFunc() }
   }
 
   addNewEmployee = async (employee) => {
-    console.log('create')
     this.loadingFunc()
     try {
-      let response = await axios.post('/api/employees', employee)
-      console.log(response)
+      await createData('/api/employees', employee)
+      let profile = await this.createRandomProfileDetails(employee.firstName)
+      await createData('/api/profiles', profile)
       this.getEmployees()
     } 
-    catch (err) {
-      console.log('failed create')
-    }
-    finally {
-      this.loadingFunc()
-    }
+    catch (err) { console.log(err) }
+    finally { this.loadingFunc() }
+  }
+
+  createRandomProfileDetails = async (employee) => {
+    try {
+      let cors = 'https://cors-anywhere.herokuapp.com/'
+      let picture = await axios.get(cors + 'https://randomuser.me/api/')
+
+      console.log(picture)
+
+      let description = {
+        gender: picture.data.results[0].gender,
+        street: `${picture.data.results[0].location.street.number} ${picture.data.results[0].location.street.name}`,
+        city: picture.data.results[0].location.city,
+        state: picture.data.results[0].location.state,
+        cell: picture.data.results[0].cell,
+        age: picture.data.results[0].dob.age,
+        large: picture.data.results[0].picture.large
+      }
+
+      description = JSON.stringify(description)
+
+      picture = picture.data.results[0].picture.medium
+
+      let profile = {
+        description,
+        picture,
+        employee
+      }
+
+      return profile
+    } 
+    catch (err) { return '' }
+  }
+
+  changeCompanyName = company => this.setState({ company })
+  resetEmployeesArr = () => this.setState({ employees: [] })
+
+  removeAnyFloatingProfiles = () => {
+    // aka the "because i'm lazy" function
+    let { profiles, employees } = this.state
+    console.log(this.state)
+    profiles.forEach(p => employees.filter(e => e.firstName === p.employee).length ? null : deleteData(`/api/profiles/`, p.id))
   }
 
   render() {
@@ -115,17 +154,31 @@ class App extends Component {
     let { loading, dots } = this.state 
     let loadStyle = loading ? { display: 'block' } : { display: 'none' }
 
+    let determineLogin = this.state.company && sessionStorage.getItem('company') ? true : false
+    let redirectToLogin = determineLogin? <Redirect from='/login' to='/' /> : <Redirect from='/' to='/login' />
+
     return (
       <>
         <div className="loading dissappear" style={loadStyle}>loading{dots}</div>
         <Router>
+          {redirectToLogin}
           <Switch>
+            <Route path='/descriptions' render={() => <Description profiles={this.state.profiles} />} />
+            <Route path='/login' render={() => <Login 
+                                                  changeCompanyName={this.changeCompanyName} 
+                                                  getEmployees={this.getEmployees }/>} />
             <Route path='/employees' render={() => <CreateUpdateEmp 
                                                       updateEmployee={this.updateEmployee}
-                                                      addNewEmployee={this.addNewEmployee}/>} />
+                                                      addNewEmployee={this.addNewEmployee}
+                                                      companyName={this.state.companyName} />} />
             <Route path='/' render={() => <Employees 
                                               employees={this.state.employees} 
-                                              deleteEmployee={this.deleteEmployee}/>} />
+                                              companies={this.state.companies} 
+                                              profiles={this.state.profiles} 
+                                              getEmployees={this.getEmployees}
+                                              deleteEmployee={this.deleteEmployee}
+                                              changeCompanyName={this.changeCompanyName} 
+                                              resetEmployeesArr={this.resetEmployeesArr} />} />
           </Switch>
         </Router>
       </>

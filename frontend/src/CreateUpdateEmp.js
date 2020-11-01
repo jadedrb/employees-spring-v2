@@ -35,9 +35,7 @@ const CreateUpdateEmp = (props) => {
             setEmail(email)
             setJobTitle(jobTitle)
             console.log(response.data)
-        } catch (err) {
-
-        }
+        } catch (err) { }
     }
 
     const handleChange = e => {
@@ -67,12 +65,17 @@ const CreateUpdateEmp = (props) => {
     const handleSubmit = e => {
         e.preventDefault()
 
+        let companyName = sessionStorage.getItem('company')
+
         let employeeObj = {
             firstName,
             lastName,
             email,
-            jobTitle
+            jobTitle,
+            companyName
         }
+
+        console.log(employeeObj)
 
         creation ? props.addNewEmployee(employeeObj) : props.updateEmployee(employeeObj, pathEnd)
         history.push('/')
