@@ -71,13 +71,16 @@ class App extends Component {
     catch (err) { console.log(err) }
     finally { 
       this.loadingFunc() 
-      this.removeAnyFloatingProfiles()
+      //this.removeAnyFloatingProfiles()
     }
   }
 
-  deleteEmployee = async (id) => {
+  deleteEmployee = async (id, employee) => {
     this.loadingFunc()
     try {
+      let profs = await readData('/api/profiles')
+      profs = profs.filter(p => p.employee === employee)[0]
+      await deleteData('/api/profiles/', profs.id)
       await deleteData(`/api/employees/`, id)
       this.getEmployees()
     } 
@@ -150,11 +153,13 @@ class App extends Component {
   changeCompanyName = company => this.setState({ company })
   resetEmployeesArr = () => this.setState({ employees: [] })
 
-  removeAnyFloatingProfiles = () => {
+  removeAnyFloatingProfiles = async () => {
     // aka the "because i'm lazy" function
     let { profiles, employees } = this.state
-    console.log(this.state)
-    profiles.forEach(p => employees.filter(e => e.firstName === p.employee).length ? null : deleteData(`/api/profiles/`, p.id))
+
+
+      //profiles.forEach(p => employees.filter(e => e.firstName === p.employee).length ? null : deleteData(`/api/profiles/`, p.id))
+
   }
 
   render() {

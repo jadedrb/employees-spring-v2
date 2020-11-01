@@ -132,6 +132,13 @@ ol li:nth-child(odd) {
   margin: 15px;
 }
 
+.c-name {
+  position: absolute;
+  opacity: .3;
+  top: 40px;
+  right: 25px;
+}
+
 @media screen and (max-width:599px) { 
   .l-button {
     top: 25px;

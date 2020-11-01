@@ -24,7 +24,7 @@ class Login extends Component {
 
         try {
 
-            // admin privledges
+            // admin privileges
             let admin = this.state.companyName === 'admin'
             let password = this.state.password === 'admin'
 
